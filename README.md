@@ -63,7 +63,9 @@ Screenshots captured from the working Unreal Engine 5.7 prototype.
 
 ## Provenance and publication
 
-This project originates from SNHU GAM-312 coursework. Attribution and redistribution rights for Unreal template content and any other included binary assets must be checked before publication. Do not include packaged Windows builds, generated engine binaries, old Git history, or generated configuration tokens in the clean portfolio repository.
+This project originates from SNHU GAM-312 coursework. **Creator-reported asset provenance:** The project author recalls creating all environment models, textures, character assets, and other project-specific content themselves. This is an authorship statement based on recollection, not an independent provenance or license audit. Unreal Engine and any underlying engine-provided components remain subject to Epic's applicable terms. Before publication, confirm that no third-party or instructor-provided assets were inadvertently included and check any applicable academic publication restrictions.
+
+The clean portfolio import excludes packaged Windows builds, generated engine binaries, original academic Git history, and generated configuration tokens.
 
 ## Preparation checklist
 
