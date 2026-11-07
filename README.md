@@ -48,18 +48,18 @@ These are **user-reported in-editor functional tests**, not an automated test su
 Screenshots captured from the working Unreal Engine 5.7 prototype.
 
 ### Prototype environment
-![Prototype environment with terrain and resource objects](01-prototype-environment.png.png)
+![Prototype environment with terrain and resource objects](01-prototype-environment.png)
 
 ### Survival HUD and objectives
-![Survival HUD and objective tracker during gameplay](02-survival-hud-objectives.png.png)
+![Survival HUD and objective tracker during gameplay](02-survival-hud-objectives.png)
 
 ### Crafting and resource management
-![Crafting options, inventory totals, building controls, and objective progress](03-crafting-resource-management.png.png)
+![Crafting options, inventory totals, building controls, and objective progress](03-crafting-resource-management.png)
 
 ### Objective completion
-![Victory screen after completing the prototype objectives](04-objective-completion.png.png)
+![Victory screen after completing the prototype objectives](04-objective-completion.png)
 
-**Gameplay video:** Not yet hosted in the repository. The screenshots and seven play-test results document the current portfolio demonstration.
+**Gameplay video:** [Watch or download the survival gameplay demonstration](Survival.mp4) (tracked with Git LFS).
 
 ## Provenance and publication
 
