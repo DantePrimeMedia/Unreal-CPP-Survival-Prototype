@@ -43,6 +43,24 @@ The project owner opened and play-tested the **clean portfolio copy** in Unreal 
 
 These are **user-reported in-editor functional tests**, not an automated test suite or independent code-quality audit. Source review has identified potential edge cases (including UI-pointer assumptions, repeated resource trace logic, and building-success reporting) that may merit future hardening; the passing tests do not establish that every edge case is resolved.
 
+## Gameplay screenshots
+
+Screenshots captured from the working Unreal Engine 5.7 prototype.
+
+### Prototype environment
+![Prototype environment with terrain and resource objects](01-prototype-environment.png.png)
+
+### Survival HUD and objectives
+![Survival HUD and objective tracker during gameplay](02-survival-hud-objectives.png.png)
+
+### Crafting and resource management
+![Crafting options, inventory totals, building controls, and objective progress](03-crafting-resource-management.png.png)
+
+### Objective completion
+![Victory screen after completing the prototype objectives](04-objective-completion.png.png)
+
+**Gameplay video:** Not yet hosted in the repository. The screenshots and seven play-test results document the current portfolio demonstration.
+
 ## Provenance and publication
 
 This project originates from SNHU GAM-312 coursework. Attribution and redistribution rights for Unreal template content and any other included binary assets must be checked before publication. Do not include packaged Windows builds, generated engine binaries, old Git history, or generated configuration tokens in the clean portfolio repository.
@@ -52,9 +70,9 @@ This project originates from SNHU GAM-312 coursework. Attribution and redistribu
 - [x] Prepare a separate branch without modifying original `main`
 - [x] Remove generated Android configuration token on preparation branch
 - [x] Ignore packaged builds and generated files for the future clean import
-- [ ] Create a separate clean-history private portfolio repository
+- [x] Create a separate clean-history private portfolio repository
 - [x] Compile and play-test the clean copy in Unreal Engine 5.7 (7/7 user-reported checks passed)
-- [ ] Add actual gameplay screenshots
+- [x] Add four actual gameplay screenshots
 - [ ] Review asset rights and academic publication timing
 
 **Keep private until explicitly approved.**
