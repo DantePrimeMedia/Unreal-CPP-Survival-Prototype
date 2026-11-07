@@ -29,7 +29,19 @@ An Unreal Engine coursework prototype exploring survival gameplay systems in C++
 - Open `GAM312_Mills.uproject` in Unreal Engine 5.7 with the Windows C++ development toolchain installed.
 - Default map: `/Game/Maps/testMap`.
 
-**Testing pending:** The clean portfolio copy has not been independently rebuilt or play-tested. The source contains areas that warrant review, including UI-pointer assumptions, repeated resource trace logic, and building-success reporting. Do not treat all systems as verified until tested.
+## Verified gameplay tests
+
+The project owner opened and play-tested the **clean portfolio copy** in Unreal Engine **5.7** on November 7, 2026. All seven reported checks passed:
+
+1. **PASS** — Project opens and C++ compiles in UE 5.7.
+2. **PASS** — `testMap` loads and character movement works.
+3. **PASS** — Health, hunger, and stamina HUD displays correctly.
+4. **PASS** — Resource gathering works (wood, stone, or berries).
+5. **PASS** — Gathered resources update in the player's inventory.
+6. **PASS** — Building placement and rotation work.
+7. **PASS** — Objectives update when collecting resources or building.
+
+These are **user-reported in-editor functional tests**, not an automated test suite or independent code-quality audit. Source review has identified potential edge cases (including UI-pointer assumptions, repeated resource trace logic, and building-success reporting) that may merit future hardening; the passing tests do not establish that every edge case is resolved.
 
 ## Provenance and publication
 
@@ -41,7 +53,7 @@ This project originates from SNHU GAM-312 coursework. Attribution and redistribu
 - [x] Remove generated Android configuration token on preparation branch
 - [x] Ignore packaged builds and generated files for the future clean import
 - [ ] Create a separate clean-history private portfolio repository
-- [ ] Compile and test the clean copy in Unreal Engine 5.7
+- [x] Compile and play-test the clean copy in Unreal Engine 5.7 (7/7 user-reported checks passed)
 - [ ] Add actual gameplay screenshots
 - [ ] Review asset rights and academic publication timing
 
