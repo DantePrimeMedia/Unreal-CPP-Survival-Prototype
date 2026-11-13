@@ -1,6 +1,6 @@
 # Unreal Engine 5.7 — C++ Survival and Building Prototype
 
-**Private portfolio preparation copy — not approved for publication**
+**Public gameplay programming portfolio project**
 
 An Unreal Engine coursework prototype exploring survival gameplay systems in C++, including resource gathering, health/hunger/stamina, building-piece placement, and on-screen objectives. This is a technical prototype, not a finished survival game.
 
@@ -67,16 +67,17 @@ This project originates from SNHU GAM-312 coursework. **Creator-reported asset p
 
 The repository includes `Content/Characters/Mannequins/` with extensive animation assets that appear to be Unreal Engine template/sample content. These are **not claimed as original student creations**. Epic Games retains rights to its content, and its redistribution is governed by the applicable Epic licenses. Project-specific assets in the other `Content/` folders have not all been independently traced to their source.
 
-The clean portfolio import excludes packaged Windows builds, generated engine binaries, original academic Git history, and generated configuration tokens. Before publication, confirm any ambiguous asset origins and applicable academic publication restrictions. **Keep private until explicit publication approval.**
+The clean portfolio import excludes packaged Windows builds, generated engine binaries, original academic Git history, and generated configuration tokens. The repository is now **public**. Public visibility does not itself establish license or academic redistribution clearance; any ambiguous asset origins and applicable academic publication restrictions still need confirmation.
 
 ## Preparation checklist
 
 - [x] Prepare a separate branch without modifying original `main`
 - [x] Remove generated Android configuration token on preparation branch
 - [x] Ignore packaged builds and generated files for the future clean import
-- [x] Create a separate clean-history private portfolio repository
+- [x] Create a separate clean-history portfolio repository
 - [x] Compile and play-test the clean copy in Unreal Engine 5.7 (7/7 user-reported checks passed)
 - [x] Add four actual gameplay screenshots
-- [ ] Review asset rights and academic publication timing
+- [x] Repository made public by the owner
+- [ ] Complete outstanding asset-rights and academic publication checks
 
-**Keep private until explicitly approved.**
+**Status:** Public portfolio repository; outstanding rights and academic checks are documented above.
