@@ -107,129 +107,110 @@ void APlayerChar::StopJump()
 	bPressedJump = false;
 }
 
+
 void APlayerChar::FindObject()
 {
+	// Confirm the player is placing a building piece.
+	if (isBuilding)
+	{
+		if (IsValid(spawnedPart))
+		{
+			isBuilding = false;
+			spawnedPart = nullptr;
+
+			objectsBuilt += 1.0f;
+
+			if (IsValid(objWidget))
+			{
+				objWidget->UpdatebuildObj(objectsBuilt);
+			}
+		}
+		return;
+	}
+
 	FHitResult HitResult;
-	FVector StartLocation = PlayerCamComp->GetComponentLocation();
-	FVector Direction = PlayerCamComp->GetForwardVector() * 800.0f;
-	FVector EndLocation = StartLocation + Direction;
+
+	const FVector StartLocation = PlayerCamComp->GetComponentLocation();
+	const FVector EndLocation =
+		StartLocation + PlayerCamComp->GetForwardVector() * 800.0f;
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 	QueryParams.bTraceComplex = true;
-	QueryParams.bReturnFaceIndex = true;
 
-	if (!isBuilding)
+	if (!GetWorld()->LineTraceSingleByChannel(
+		HitResult, StartLocation, EndLocation,
+		ECC_Visibility, QueryParams))
 	{
-		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams))
-		{
-			AResource_M* HitResource = Cast<AResource_M>(HitResult.GetActor());
-
-			if (Stamina > 5.0f)
-			{
-
-				if (HitResource)
-				{
-					FString hitName = HitResource->resourceName;
-					int resourceValue = HitResource->resourceAmount;
-
-					HitResource->totalResource = HitResource->totalResource - resourceValue;
-
-					if (HitResource->totalResource > resourceValue)
-					{
-						GiveResource(resourceValue, hitName);
-
-						matsCollected = matsCollected + resourceValue;
-
-						objWidget->UpdatematOBJ(matsCollected);
-
-						check(GEngine != nullptr);
-						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
-
-						UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
-
-						SetStamina(-5.0f);
-					}
-					else
-					{
-						HitResource->Destroy();
-						check(GEngine != nullptr);
-						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
-					}
-				}
-			}
-
-		}
+		return;
 	}
 
-	else
-	{
-		isBuilding = false;
-		objectsBuilt = objectsBuilt + 1.0f;
+	AResource_M* HitResource =
+		Cast<AResource_M>(HitResult.GetActor());
 
-		objWidget->UpdatebuildObj(objectsBuilt);		
+	if (!IsValid(HitResource) || Stamina < 5.0f)
+	{
+		return;
 	}
 
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams))
+	const int32 AmountCollected = FMath::Min(
+		FMath::Max(HitResource->resourceAmount, 0),
+		FMath::Max(HitResource->totalResource, 0)
+	);
+
+	if (AmountCollected <= 0)
 	{
-		AResource_M* HitResource = Cast<AResource_M>(HitResult.GetActor());
+		HitResource->Destroy();
+		return;
+	}
 
-		if (Stamina > 5.0f)
-		{	
+	const FString ResourceType = HitResource->resourceName;
 
-			if (HitResource)
-			{
-				FString hitName = HitResource->resourceName;
-				int resourceValue = HitResource->resourceAmount;
+	GiveResource(AmountCollected, ResourceType);
+	HitResource->totalResource -= AmountCollected;
 
-				HitResource->totalResource = HitResource->totalResource - resourceValue;
+	matsCollected += AmountCollected;
 
-				if (HitResource->totalResource > resourceValue)
-				{
-					GiveResource(resourceValue, hitName);
+	if (IsValid(objWidget))
+	{
+		objWidget->UpdatematOBJ(matsCollected);
+	}
 
-					check(GEngine != nullptr);
-					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
+	SetStamina(-5.0f);
 
-					UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
+	if (hitDecal)
+	{
+		UGameplayStatics::SpawnDecalAtLocation(
+			GetWorld(), hitDecal,
+			FVector(10.0f, 10.0f, 10.0f),
+			HitResult.Location,
+			FRotator(-90, 0, 0), 2.0f
+		);
+	}
 
-					SetStamina(-5.0f);
-				}
-				else
-				{
-					HitResource->Destroy();
-					check(GEngine != nullptr);
-					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
-				}
-			}
-		}
-
+	if (HitResource->totalResource <= 0)
+	{
+		HitResource->Destroy();
 	}
 }
 
+
+
 void APlayerChar::SetHealth(float amount)
 {
-	if (Health + amount < 100)
-	{
-		Health = Health + amount;
-	}
+	Health = FMath::Clamp(Health + amount, 0.0f, 100.0f);
 }
 
 void APlayerChar::SetHunger(float amount)
 {
-	if (Hunger + amount < 100)
-	{
-		Hunger = Hunger + amount;
-	}
+	Hunger = FMath::Clamp(Hunger + amount, 0.0f, 100.0f);
 }
 
 void APlayerChar::SetStamina(float amount)
 {
-	if (Stamina + amount < 100)
-	{
-		Stamina = Stamina + amount;
-	}
+	Stamina = FMath::Clamp(Stamina + amount, 0.0f, 100.0f);
 }
+
 
 void APlayerChar::DecreaseStats()
 {
@@ -285,35 +266,45 @@ void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString b
 
 			if (buildingObject == "Ceiling")
 			{
-				BuildingArray[2] = BuildingArray[2] + 2;
+				BuildingArray[2] = BuildingArray[2] + 1;
 			}
 		}
 	}
 }
 
+
 void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess)
 {
-	if (!isBuilding)
+	isSuccess = false;
+
+	if (isBuilding ||
+		!BuildingArray.IsValidIndex(buildingID) ||
+		BuildingArray[buildingID] < 1 ||
+		!BuildPartClass)
 	{
-		if (BuildingArray[buildingID] >= 1)
-		{
-			isBuilding = true;
-			FActorSpawnParameters SpawnParams;
-			FVector StartLocation = PlayerCamComp->GetComponentLocation();
-			FVector Direction = PlayerCamComp->GetForwardVector() * 400.0f;
-			FVector EndLocation = StartLocation + Direction;
-			FRotator myRot(0, 0, 0);
+		return;
+	}
 
-			BuildingArray[buildingID] = BuildingArray[buildingID] - 1;
+	FActorSpawnParameters SpawnParams;
+	const FVector SpawnLocation =
+		PlayerCamComp->GetComponentLocation() +
+		PlayerCamComp->GetForwardVector() * 400.0f;
 
-			spawnedPart = GetWorld()->SpawnActor<ABuildingPart>(BuildPartClass, EndLocation, myRot, SpawnParams);
+	spawnedPart = GetWorld()->SpawnActor<ABuildingPart>(
+		BuildPartClass,
+		SpawnLocation,
+		FRotator::ZeroRotator,
+		SpawnParams
+	);
 
-			isSuccess = true;
-		}
-
-		isSuccess = false;
+	if (IsValid(spawnedPart))
+	{
+		BuildingArray[buildingID] -= 1;
+		isBuilding = true;
+		isSuccess = true;
 	}
 }
+
 
 void APlayerChar::RotateBuilding()
 {
