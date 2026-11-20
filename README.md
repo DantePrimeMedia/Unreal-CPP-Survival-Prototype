@@ -41,7 +41,20 @@ The project owner opened and play-tested the **clean portfolio copy** in Unreal 
 6. **PASS** — Building placement and rotation work.
 7. **PASS** — Objectives update when collecting resources or building.
 
-These are **user-reported in-editor functional tests**, not an automated test suite or independent code-quality audit. Source review has identified potential edge cases (including UI-pointer assumptions, repeated resource trace logic, and building-success reporting) that may merit future hardening; the passing tests do not establish that every edge case is resolved.
+These are **user-reported in-editor functional tests**, not an automated test suite or independent code-quality audit. Additional GAM-495 refinements have since been implemented; the earlier seven checks do not represent a new full regression test of the refined version. Some defensive checks (such as UI-pointer handling) remain opportunities for future improvement.
+
+## GAM-495 refinements (November 2026)
+
+The portfolio copy was refined after its initial GAM-312 submission to improve gameplay logic and presentation:
+
+- Consolidated repeated resource-gathering logic and corrected depletion handling so the remaining amount can be collected before a resource disappears.
+- Corrected building spawn-success reporting and prevented a failed spawn from consuming a crafted building piece.
+- Adjusted crafting/building pieces, including the extra ceiling output, and verified that the crafting menu closes after successful selection.
+- Updated health, hunger, and stamina handling to clamp values within their valid range, including berry consumption near full stamina.
+- Improved wandering AI recovery from navigation failures and fixed the idle/walk animation transitions so the NPC walks instead of sliding.
+- Reviewed the survival HUD, objective updates, and the loss-screen behavior in editor.
+
+These changes primarily affect C++ and Blueprint behavior rather than the visual environment; the screenshots and gameplay video below remain illustrative of the prototype, but may show the earlier build.
 
 ## Gameplay screenshots
 
